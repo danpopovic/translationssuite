@@ -364,7 +364,9 @@ public class MainFrame extends javax.swing.JFrame {
             jTextField_ST_pfad.setText("");
         }
          
-        if(jCheckBox_STbeibehalten)
+        if(jCheckBox_STbeibehalten.isEnabled()){
+            
+        }
     }//GEN-LAST:event_jButton_ST_okActionPerformed
 
     private void jButton_ST_abbrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ST_abbrActionPerformed
