@@ -77,6 +77,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton_ST_ok = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextField_ST_pfad = new javax.swing.JTextField();
+        jCheckBox_STbeibehalten = new javax.swing.JCheckBox();
         jButton_ST_abbr = new javax.swing.JButton();
         jFrame_autosuche = new javax.swing.JFrame();
         jLabel2 = new javax.swing.JLabel();
@@ -112,21 +113,25 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextField_ST_pfad.setName("jTextfield_ST"); // NOI18N
 
+        jCheckBox_STbeibehalten.setText("Für nächsten Programmstart abspeichern");
+        jCheckBox_STbeibehalten.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_STbeibehaltenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jFrame_STLayout = new javax.swing.GroupLayout(jFrame_ST.getContentPane());
         jFrame_ST.getContentPane().setLayout(jFrame_STLayout);
         jFrame_STLayout.setHorizontalGroup(
             jFrame_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame_STLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jFrame_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame_STLayout.createSequentialGroup()
-                        .addGroup(jFrame_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField_ST_pfad))
-                        .addContainerGap(28, Short.MAX_VALUE))
-                    .addGroup(jFrame_STLayout.createSequentialGroup()
-                        .addComponent(jButton_ST_ok)
-                        .addContainerGap(185, Short.MAX_VALUE))))
+                .addGroup(jFrame_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton_ST_ok)
+                    .addComponent(jCheckBox_STbeibehalten, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField_ST_pfad)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jFrame_STLayout.setVerticalGroup(
             jFrame_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,9 +140,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField_ST_pfad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_ST_ok)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox_STbeibehalten)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jButton_ST_ok))
         );
 
         jButton_ST_abbr.setText("Abbrechen");
@@ -358,6 +364,7 @@ public class MainFrame extends javax.swing.JFrame {
             jTextField_ST_pfad.setText("");
         }
          
+        if(jCheckBox_STbeibehalten)
     }//GEN-LAST:event_jButton_ST_okActionPerformed
 
     private void jButton_ST_abbrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ST_abbrActionPerformed
@@ -370,6 +377,10 @@ public class MainFrame extends javax.swing.JFrame {
         jFrame_autosuche.setSize(400, 121);
         jFrame_autosuche.setVisible(true);
     }//GEN-LAST:event_jMenuItem_autosucheActionPerformed
+
+    private void jCheckBox_STbeibehaltenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_STbeibehaltenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_STbeibehaltenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,6 +430,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_ST_abbr;
     private javax.swing.JButton jButton_ST_ok;
+    private javax.swing.JCheckBox jCheckBox_STbeibehalten;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFrame jFrame_ST;
     private javax.swing.JFrame jFrame_autosuche;
