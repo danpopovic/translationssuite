@@ -34,18 +34,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -72,6 +71,8 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane.setTitleAt(0, "*neu");
         jTabbedPane.setTitleAt(1, "Vergleich");
         jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("Vergleich"), false);
+        
+        jComboBox_Vergleichskriterien.setModel(new DefaultComboBoxModel<>(new String[]{"Unterschiede anzeigen","Fehlende keys anzeigen"}));
         
         File st_new = new File("ST.txt");
 
@@ -121,9 +122,9 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboBox_Vergleichskriterien = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox_datei1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox_datei2 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
@@ -281,16 +282,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox_datei1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_datei1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBox_datei1ActionPerformed(evt);
             }
         });
 
         jLabel4.setText("mit");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_datei2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,11 +304,11 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox_datei1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jComboBox_datei2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -318,9 +319,9 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_datei1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox_datei2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 36, Short.MAX_VALUE))
         );
 
@@ -584,6 +585,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     private void jMenuItem_oeffnenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_oeffnenActionPerformed
+        //Mit dieser Methode wird die manuelle Suche gestartet und in einen neuen Tab geöffnet
         String dateiname=manuelleSuche(jTable_tab_start);
         
         if(!dateiname.isEmpty()){
@@ -603,6 +605,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ST_abbrActionPerformed
 
     private void jMenuItem_autosucheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_autosucheActionPerformed
+        //hier wird die autosuche gestartet
         searchST();
     }//GEN-LAST:event_jMenuItem_autosucheActionPerformed
 
@@ -703,8 +706,19 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jFrame_STWindowOpened
 
     private void jMenuItem_vgDSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_vgDSTActionPerformed
+        //Hier ird die Autosche im Source Tree gestartet
         searchST();
         jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("Vergleich"), true);
+        LinkedList<String> filenames=new LinkedList<>();
+        
+        for(int i=0;i<jTabbedPane.getTabCount();i++){
+            String file_name=jTabbedPane.getTitleAt(i);
+            if(!file_name.isEmpty()||!file_name.contains("Vergleich")||!file_name.contains("*neu")){
+                filenames.add(file_name);            
+            }
+        }
+        jComboBox_datei1.setModel(new DefaultComboBoxModel(filenames.toArray()));
+        jComboBox_datei2.setModel(new DefaultComboBoxModel(filenames.toArray()));
         
         
     }//GEN-LAST:event_jMenuItem_vgDSTActionPerformed
@@ -740,9 +754,9 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jComboBox_VergleichskriterienItemStateChanged
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jComboBox_datei1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_datei1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jComboBox_datei1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -793,9 +807,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton_ST_ok;
     private javax.swing.JButton jButton_autosuche_ok;
     private javax.swing.JCheckBox jCheckBox_STbeibehalten;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox_Vergleichskriterien;
+    private javax.swing.JComboBox<String> jComboBox_datei1;
+    private javax.swing.JComboBox<String> jComboBox_datei2;
     private javax.swing.JComboBox<String> jComboBox_translations;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame_ST;
