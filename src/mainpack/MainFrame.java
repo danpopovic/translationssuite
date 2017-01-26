@@ -34,9 +34,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.TabPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -121,9 +123,9 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboBox_Vergleichskriterien = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox_t1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox_t2 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
@@ -281,16 +283,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox_t1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_t1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBox_t1ActionPerformed(evt);
             }
         });
 
         jLabel4.setText("mit");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_t2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,11 +305,11 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jComboBox_t2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -318,9 +320,9 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox_t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 36, Short.MAX_VALUE))
         );
 
@@ -712,6 +714,22 @@ public class MainFrame extends javax.swing.JFrame {
         searchST();
         jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("Vergleich"), true);
         
+        int tab_count=jTabbedPane.getTabCount();
+    
+        LinkedList<String> all_tabnames=new LinkedList<>();
+        
+        for(int i=0;i<tab_count+1;i++){
+            String current_tname=jTabbedPane.getTitleAt(i);
+            if(!current_tname.equals("*neu")&&!current_tname.equals("Vergleich")&&!all_tabnames.contains(current_tname)){
+                all_tabnames.add(current_tname);
+            }
+        }
+        
+          jComboBox_t1.setModel(new DefaultComboBoxModel<String>());
+        
+        for(String s:all_tabnames){
+             ((DefaultComboBoxModel)jComboBox_t1.getModel()).addElement(s);
+        }
         
     }//GEN-LAST:event_jMenuItem_vgDSTActionPerformed
 
@@ -748,9 +766,9 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jComboBox_VergleichskriterienItemStateChanged
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jComboBox_t1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_t1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jComboBox_t1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -802,9 +820,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton_ST_ok;
     private javax.swing.JButton jButton_autosuche_ok;
     private javax.swing.JCheckBox jCheckBox_STbeibehalten;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox_Vergleichskriterien;
+    private javax.swing.JComboBox<String> jComboBox_t1;
+    private javax.swing.JComboBox<String> jComboBox_t2;
     private javax.swing.JComboBox<String> jComboBox_translations;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame_ST;
@@ -832,7 +850,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_ST_pfad;
     // End of variables declaration//GEN-END:variables
 
-    private void vergleiche(JTable t, JTable jTable_tab_start) {
+    private void vergleiche(JTable t1, JTable t2) {
       
        
     }
