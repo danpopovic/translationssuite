@@ -63,6 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public String sourceTree;
+    public LinkedList<tspoFile> tspofiles=new LinkedList<>();
 
     public MainFrame() {
         initComponents();
@@ -74,7 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane.setTitleAt(0, "*neu");
         jTabbedPane.setTitleAt(1, "Vergleich");
         jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("Vergleich"), false);
-        
+
         File st_new = new File("ST.txt");
 
         try {
@@ -126,6 +127,7 @@ public class MainFrame extends javax.swing.JFrame {
         jComboBox_t1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jComboBox_t2 = new javax.swing.JComboBox<>();
+        jButton_vergleiche_Tab = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
@@ -244,6 +246,12 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("ETA Translation Suite");
         setIconImages(null);
 
+        jTabbedPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPaneMouseClicked(evt);
+            }
+        });
+
         jTable_tab_start.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -277,22 +285,19 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel1.setText("Verlgleichskriterium");
 
         jComboBox_Vergleichskriterien.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Änderungen herrvorheben", "Fehlende Keys"}));
-        jComboBox_Vergleichskriterien.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox_VergleichskriterienItemStateChanged(evt);
-            }
-        });
 
         jComboBox_t1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox_t1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_t1ActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("mit");
 
         jComboBox_t2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton_vergleiche_Tab.setText("Vergleiche!");
+        jButton_vergleiche_Tab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_vergleiche_TabActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -311,6 +316,10 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox_t2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 79, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton_vergleiche_Tab)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,10 +329,16 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox_t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 36, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jComboBox_t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_vergleiche_Tab))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -421,17 +436,16 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     private String manuelleSuche(JTable table) {
         // In dieser Methode wird eine Übersetzungdatei geöffnet, ausgelesen und in die Tabelle jTable1 eingefügt.
-        String dateiname="";
-        
+        String dateiname = "";
+
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             BufferedReader br;
-            
+
             File uebersetzung = fileChooser.getSelectedFile();
-            dateiname=uebersetzung.getName();
-            
+            dateiname = uebersetzung.getName();
+
             if (uebersetzung.getAbsolutePath().endsWith(".po")) {
                 table.setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
 
@@ -499,21 +513,21 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
         }
-        return  dateiname;
+        return dateiname;
     }
 
     private String autosuche(JTable table) {
         // Hier werden die Übersetzungen in die Table geladen
-                jFrame_autosuche.setVisible(true);
+        jFrame_autosuche.setVisible(true);
 
         DefaultComboBoxModel<String> uebersetzungen = (DefaultComboBoxModel) jComboBox_translations.getModel();
-        String dateiname="";
-        
+        String dateiname = "";
+
         if (uebersetzungen.getSize() > 0) {
             BufferedReader br;
             File cFile = new File(sourceTree + "//" + uebersetzungen.getSelectedItem());
-            dateiname=cFile.getName();
-            
+            dateiname = cFile.getName();
+
             if (cFile.getAbsolutePath().endsWith(".po")) {
                 table.setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
                 try {
@@ -578,7 +592,7 @@ public class MainFrame extends javax.swing.JFrame {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
         }
         jFrame_autosuche.setVisible(false);
         return dateiname;
@@ -586,10 +600,12 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     private void jMenuItem_oeffnenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_oeffnenActionPerformed
-        String dateiname=manuelleSuche(jTable_tab_start);
-        
-        if(!dateiname.isEmpty()){
-            jTabbedPane.setTitleAt(0,dateiname);
+        tspoFile temp=new tspoFile();
+        temp.setFile_name(manuelleSuche(temp.getDaten()));
+
+        if (!temp.getFile_name().isEmpty()) {
+            jTabbedPane.setTitleAt(0, temp.getFile_name());
+            tspofiles.add(temp);
         }
     }//GEN-LAST:event_jMenuItem_oeffnenActionPerformed
 
@@ -608,16 +624,15 @@ public class MainFrame extends javax.swing.JFrame {
         searchST();
     }//GEN-LAST:event_jMenuItem_autosucheActionPerformed
 
-    public void searchST(){
-         // Hier wird im Source Tree nach Übersetzungen gesucht
+    public void searchST() {
+        // Hier wird im Source Tree nach Übersetzungen gesucht
         jFrame_autosuche.setSize(350, 121);
-        jFrame_autosuche.setVisible(true); 
+        jFrame_autosuche.setVisible(true);
         jComboBox_translations.setModel(new DefaultComboBoxModel<String>());
 
         File sT = new File(sourceTree);
         String[] files = sT.list();
 
-   
         for (String file : files) {
             if (file.endsWith(".po") || file.endsWith(".ts")) {
                 ((DefaultComboBoxModel) jComboBox_translations.getModel()).addElement(file);
@@ -630,21 +645,23 @@ public class MainFrame extends javax.swing.JFrame {
 
         }
     }
-    
+
     private void jButton_autosuche_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_autosuche_okActionPerformed
+
+        tspoFile temp=new tspoFile();
         
-        JTable t=new JTable();
-        t.setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
-        
-        String dateiname=autosuche(t);
-        System.out.println(t.getColumnCount());
-        ScrollPane sp=new ScrollPane();
-        sp.add(t);
-        t.setFillsViewportHeight(true);
-        if(!dateiname.isEmpty()){
-            jTabbedPane.addTab(dateiname,sp);
+        temp.getDaten().setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
+
+        temp.setFile_name(autosuche(temp.getDaten()));
+        System.out.println(temp.getDaten().getColumnCount());
+        ScrollPane sp = new ScrollPane();
+        sp.add(temp.getDaten());
+        temp.getDaten().setFillsViewportHeight(true);
+        if (!temp.getFile_name().isEmpty()) {
+            jTabbedPane.addTab(temp.getFile_name(), sp);
+            tspofiles.add(temp);
         }
-        
+
     }//GEN-LAST:event_jButton_autosuche_okActionPerformed
 
     private void jButton_ST_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ST_okActionPerformed
@@ -671,12 +688,12 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Source Tree ist lesegeschützt", "Eingabehler", JOptionPane.ERROR_MESSAGE);
             sourceTree = "";
             jTextField_ST_pfad.setText("");
-              
+
         } else if (!f.canWrite()) {
             JOptionPane.showMessageDialog(rootPane, "Source Tree ist schreibgeschützt", "Eingabehler", JOptionPane.ERROR_MESSAGE);
             sourceTree = "";
             jTextField_ST_pfad.setText("");
-             
+
         }
 
         if (jCheckBox_STbeibehalten.isEnabled()) {
@@ -685,8 +702,6 @@ public class MainFrame extends javax.swing.JFrame {
                 oos = new ObjectOutputStream(new FileOutputStream("ST.txt"));
                 oos.writeObject(sourceTree);
                 oos.flush();
-                
-              
 
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class
@@ -705,7 +720,6 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox_STbeibehaltenActionPerformed
 
     private void jFrame_STWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame_STWindowOpened
-       
 
 
     }//GEN-LAST:event_jFrame_STWindowOpened
@@ -713,62 +727,72 @@ public class MainFrame extends javax.swing.JFrame {
     private void jMenuItem_vgDSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_vgDSTActionPerformed
         searchST();
         jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("Vergleich"), true);
-        
-        int tab_count=jTabbedPane.getTabCount();
-    
-        LinkedList<String> all_tabnames=new LinkedList<>();
-        
-        for(int i=0;i<tab_count+1;i++){
-            String current_tname=jTabbedPane.getTitleAt(i);
-            if(!current_tname.equals("*neu")&&!current_tname.equals("Vergleich")&&!all_tabnames.contains(current_tname)){
-                all_tabnames.add(current_tname);
-            }
-        }
-        
-          jComboBox_t1.setModel(new DefaultComboBoxModel<String>());
-        
-        for(String s:all_tabnames){
-             ((DefaultComboBoxModel)jComboBox_t1.getModel()).addElement(s);
-        }
-        
+
     }//GEN-LAST:event_jMenuItem_vgDSTActionPerformed
 
     private void jMenuItem_vgDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_vgDActionPerformed
         //Vergeich mit Datei die im Filechooser gewählt wurde
-        JTable t=new JTable();
-        t.setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
-        t.setAutoCreateColumnsFromModel(true);
-        
-        String dateiname=manuelleSuche(t);
-        ScrollPane sp=new ScrollPane();
-        
-        sp.add(t);
-        
-        if(!dateiname.isEmpty()){
-            jTabbedPane.addTab(dateiname,sp);
-            vergleiche(t,jTable_tab_start);
+        tspoFile temp=new tspoFile();
+        temp.getDaten().setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
+        temp.getDaten().setAutoCreateColumnsFromModel(true);
+
+        temp.setFile_name(manuelleSuche(temp.getDaten()));
+        ScrollPane sp = new ScrollPane();
+
+        sp.add(temp.getDaten());
+
+        if (!temp.getFile_name().isEmpty()) {
+            jTabbedPane.addTab(temp.getFile_name(), sp);
+            tspofiles.add(temp);
         }
-        
-        
+
+
     }//GEN-LAST:event_jMenuItem_vgDActionPerformed
 
-    private void jComboBox_VergleichskriterienItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_VergleichskriterienItemStateChanged
-        String vglKrit=jComboBox_Vergleichskriterien.getSelectedItem().toString();
+    private void jTabbedPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPaneMouseClicked
+        if (jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex()).equals("Vergleich")) {
+            int tab_count = jTabbedPane.getTabCount();
+
+            LinkedList<String> all_tabnames = new LinkedList<>();
+
+            for (int i = 0; i < tab_count; i++) {
+                String current_tname = jTabbedPane.getTitleAt(i);
+                if (!current_tname.equals("*neu") && !current_tname.equals("Vergleich") && !all_tabnames.contains(current_tname)) {
+                    all_tabnames.add(current_tname);
+                }
+            }
+
+            jComboBox_t1.setModel(new DefaultComboBoxModel<String>());
+
+            for (String s : all_tabnames) {
+                ((DefaultComboBoxModel) jComboBox_t1.getModel()).addElement(s);
+            }
+            
+            jComboBox_t2.setModel(new DefaultComboBoxModel<String>());
+
+            for (String s : all_tabnames) {
+                ((DefaultComboBoxModel) jComboBox_t2.getModel()).addElement(s);
+            }
+
+        }
+    }//GEN-LAST:event_jTabbedPaneMouseClicked
+
+    private void jButton_vergleiche_TabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_vergleiche_TabActionPerformed
+        //Hier werden die Selektierten Tabellen vergliche nach den Selektierten Kriterien
+        String sel_vgl_krit=(String) jComboBox_Vergleichskriterien.getSelectedItem();
         
-        switch(vglKrit){
-            case "Fehlende Keys":
-                vglKrtit1();
-                break;
+        switch(sel_vgl_krit){
             case "Änderungen herrvorheben":
-                vglKrtit2();
+                
+               
+                
+                break;
+                
+            case "Fehlende Keys":
+                
                 break;
         }
-        
-    }//GEN-LAST:event_jComboBox_VergleichskriterienItemStateChanged
-
-    private void jComboBox_t1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_t1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_t1ActionPerformed
+    }//GEN-LAST:event_jButton_vergleiche_TabActionPerformed
 
     /**
      * @param args the command line arguments
@@ -809,7 +833,7 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
-                
+
             }
         });
     }
@@ -819,6 +843,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton_ST_abbr;
     private javax.swing.JButton jButton_ST_ok;
     private javax.swing.JButton jButton_autosuche_ok;
+    private javax.swing.JButton jButton_vergleiche_Tab;
     private javax.swing.JCheckBox jCheckBox_STbeibehalten;
     private javax.swing.JComboBox<String> jComboBox_Vergleichskriterien;
     private javax.swing.JComboBox<String> jComboBox_t1;
@@ -850,19 +875,4 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_ST_pfad;
     // End of variables declaration//GEN-END:variables
 
-    private void vergleiche(JTable t1, JTable t2) {
-      
-       
-    }
-
-    private void vglKrtit1() {
-        //Nach Fehlenden Keys suchen
-    }
-
-    private void vglKrtit2() {
-        //Änderungen hervorheben
-        
-        
-        
-    }
 }
