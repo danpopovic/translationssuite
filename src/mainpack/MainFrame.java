@@ -23,6 +23,7 @@ s license header, choose License Headers in Project Properties.
  */
 package mainpack;
 
+import java.awt.Color;
 import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -38,16 +39,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.TabPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -119,8 +116,6 @@ public class MainFrame extends javax.swing.JFrame {
         jTable_tab_start = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable_vgl_translation = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboBox_Vergleichskriterien = new javax.swing.JComboBox<>();
@@ -128,6 +123,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jComboBox_t2 = new javax.swing.JComboBox<>();
         jButton_vergleiche_Tab = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable_vgl_translation = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
@@ -269,19 +266,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(400, 400));
 
-        jTable_vgl_translation.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable_vgl_translation);
-
         jLabel1.setText("Verlgleichskriterium");
 
         jComboBox_Vergleichskriterien.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Änderungen herrvorheben", "Fehlende Keys"}));
@@ -298,6 +282,19 @@ public class MainFrame extends javax.swing.JFrame {
                 jButton_vergleiche_TabActionPerformed(evt);
             }
         });
+
+        jTable_vgl_translation.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable_vgl_translation);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -317,9 +314,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jComboBox_t2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 79, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_vergleiche_Tab)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton_vergleiche_Tab))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,34 +326,28 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox_t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_vergleiche_Tab))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jComboBox_t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_vergleiche_Tab)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jDesktopPane1);
@@ -779,27 +770,50 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton_vergleiche_TabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_vergleiche_TabActionPerformed
         //Hier werden die Selektierten Tabellen vergliche nach den Selektierten Kriterien
+        // tspofile: eine Klasse in den eine Tabelle und ein String name enthalten ist
+        // tspofiles: eine LinkedList mit tspofiles
+
         String sel_vgl_krit=(String) jComboBox_Vergleichskriterien.getSelectedItem();
-        tspoFile file1;
-        tspoFile file2;      
+        tspoFile file1=new tspoFile();
+        DefaultTableModel TabmodelFile1=new DefaultTableModel();
+        tspoFile file2=new tspoFile();
+        DefaultTableModel TabmodelFile2=new DefaultTableModel();
+
+        
         
         for(tspoFile file:tspofiles){
             if(file.getFile_name().equals((String)jComboBox_t1.getSelectedItem())){
                 file1=file;
+                TabmodelFile1=(DefaultTableModel)file1.getDaten().getModel();
             }else if(file.getFile_name().equals((String)jComboBox_t2.getSelectedItem())){
                 file2=file;
+                TabmodelFile2=(DefaultTableModel)file2.getDaten().getModel();
             }
         }
-        
+
         switch(sel_vgl_krit){
             case "Änderungen herrvorheben":
+                jTable_vgl_translation.setModel(new DefaultTableModel(
+                        new String[]{"keys von "+file1.getFile_name(),
+                            "values von "+file1.getFile_name(),
+                            "keys von "+file2.getFile_name(),
+                            "values von "+file2.getFile_name()}, 1));
                 
-                break;
-                
+                int count=0;
+                while(true){
+                    if(count<TabmodelFile1.getRowCount()){
+                       jTable_vgl_translation.getCellRenderer(count, 0).getTableCellRendererComponent(jTable_tab_start,"hello", false, true,count, 0).setBackground(Color.GREEN);
+                    }else {
+                        break;
+                    }
+                    count++;
+                }
+           
+            break;
+
             case "Fehlende Keys":
-                
-                
-                break;
+
+            break;
         }
     }//GEN-LAST:event_jButton_vergleiche_TabActionPerformed
 
