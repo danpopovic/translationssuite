@@ -780,15 +780,24 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton_vergleiche_TabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_vergleiche_TabActionPerformed
         //Hier werden die Selektierten Tabellen vergliche nach den Selektierten Kriterien
         String sel_vgl_krit=(String) jComboBox_Vergleichskriterien.getSelectedItem();
+        tspoFile file1;
+        tspoFile file2;      
+        
+        for(tspoFile file:tspofiles){
+            if(file.getFile_name().equals((String)jComboBox_t1.getSelectedItem())){
+                file1=file;
+            }else if(file.getFile_name().equals((String)jComboBox_t2.getSelectedItem())){
+                file2=file;
+            }
+        }
         
         switch(sel_vgl_krit){
             case "Änderungen herrvorheben":
                 
-               
-                
                 break;
                 
             case "Fehlende Keys":
+                
                 
                 break;
         }
