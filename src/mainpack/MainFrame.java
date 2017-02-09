@@ -24,6 +24,7 @@ s license header, choose License Headers in Project Properties.
 package mainpack;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -35,6 +36,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.PreparedStatement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,6 +47,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -60,7 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public String sourceTree;
-    public LinkedList<tspoFile> tspofiles=new LinkedList<>();
+    public LinkedList<tspoFile> tspofiles = new LinkedList<>();
 
     public MainFrame() {
         initComponents();
@@ -595,7 +598,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     private void jMenuItem_oeffnenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_oeffnenActionPerformed
-        tspoFile temp=new tspoFile();
+        tspoFile temp = new tspoFile();
         temp.setFile_name(manuelleSuche(temp.getDaten()));
 
         if (!temp.getFile_name().isEmpty()) {
@@ -611,7 +614,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jButton_ST_abbrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ST_abbrActionPerformed
-        // Wenn man abbrechen klickt wird der Source Tree nicht gespeichert 
+        // Wenn man abbrechen klickt wird der Source Tree nicht gespeichert
         jFrame_ST.setVisible(false);
     }//GEN-LAST:event_jButton_ST_abbrActionPerformed
 
@@ -643,8 +646,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton_autosuche_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_autosuche_okActionPerformed
 
-        tspoFile temp=new tspoFile();
-        
+        tspoFile temp = new tspoFile();
+
         temp.getDaten().setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
 
         temp.setFile_name(autosuche(temp.getDaten()));
@@ -727,7 +730,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem_vgDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_vgDActionPerformed
         //Vergeich mit Datei die im Filechooser gewählt wurde
-        tspoFile temp=new tspoFile();
+        tspoFile temp = new tspoFile();
         temp.getDaten().setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
         temp.getDaten().setAutoCreateColumnsFromModel(true);
 
@@ -762,7 +765,7 @@ public class MainFrame extends javax.swing.JFrame {
             for (String s : all_tabnames) {
                 ((DefaultComboBoxModel) jComboBox_t1.getModel()).addElement(s);
             }
-            
+
             jComboBox_t2.setModel(new DefaultComboBoxModel<String>());
 
             for (String s : all_tabnames) {
@@ -777,67 +780,89 @@ public class MainFrame extends javax.swing.JFrame {
         // tspofile: eine Klasse in den eine Tabelle und ein String name enthalten ist
         // tspofiles: eine LinkedList mit tspofiles
 
-        String sel_vgl_krit=(String) jComboBox_Vergleichskriterien.getSelectedItem();
-        tspoFile file1=new tspoFile();
-        DefaultTableModel TabmodelFile1=new DefaultTableModel();
-        tspoFile file2=new tspoFile();
-        DefaultTableModel TabmodelFile2=new DefaultTableModel();
+        String sel_vgl_krit = (String) jComboBox_Vergleichskriterien.getSelectedItem();
+        tspoFile file1 = new tspoFile();
+        DefaultTableModel TabmodelFile1 = new DefaultTableModel();
+        tspoFile file2 = new tspoFile();
+        DefaultTableModel TabmodelFile2 = new DefaultTableModel();
 
-        String keytab1="";
-        String valuetab1="";
-        String keytab2="";
-        String valuetab2="";
-        
-        for(tspoFile file:tspofiles){
-            if(file.getFile_name().equals((String)jComboBox_t1.getSelectedItem())){
-                file1=file;
-                TabmodelFile1=(DefaultTableModel)file1.getDaten().getModel();
-            }else if(file.getFile_name().equals((String)jComboBox_t2.getSelectedItem())){
-                file2=file;
-                TabmodelFile2=(DefaultTableModel)file2.getDaten().getModel();
+        String keytab1 = "";
+        String valuetab1 = "";
+        String keytab2 = "";
+        String valuetab2 = "";
+
+        for (tspoFile file : tspofiles) {
+            if (file.getFile_name().equals((String) jComboBox_t1.getSelectedItem())) {
+                file1 = file;
+                TabmodelFile1 = (DefaultTableModel) file1.getDaten().getModel();
+            } else if (file.getFile_name().equals((String) jComboBox_t2.getSelectedItem())) {
+                file2 = file;
+                TabmodelFile2 = (DefaultTableModel) file2.getDaten().getModel();
             }
         }
 
-        switch(sel_vgl_krit){
+        String[] vgl_tbl_col = new String[]{"keys von " + file1.getFile_name(),
+            "keys von " + file2.getFile_name(),
+            "values von " + file1.getFile_name(),
+            "values von " + file2.getFile_name()};
+        
+        switch (sel_vgl_krit) {
             case "Änderungen herrvorheben":
-                jTable_vgl_translation.setModel(new DefaultTableModel(
-                        new String[]{"keys von "+file1.getFile_name(),
-                            "values von "+file1.getFile_name(),
-                            "keys von "+file2.getFile_name(),
-                            "values von "+file2.getFile_name()}, 1));
                 
-                int count=0;
-                while(true){
-                    if(count<TabmodelFile1.getRowCount()){
-                        
-                        if(file1.po){
-                            keytab1=(String)TabmodelFile1.getValueAt(count, 1);
-                            valuetab1=(String)TabmodelFile1.getValueAt(count, 2);
-                        }else if(file1.ts){
-                            keytab1=(String)TabmodelFile1.getValueAt(count, 2);
-                            valuetab1=(String)TabmodelFile1.getValueAt(count, 3);
+                break;
+
+            case "Fehlende Keys":
+                    int count = 0;
+                jTable_vgl_translation.setModel(new DefaultTableModel(vgl_tbl_col, 0));
+                while (true) {
+                    if (count < TabmodelFile1.getRowCount() || count < TabmodelFile2.getRowCount()) {
+
+                        if (file1.po) {
+                            if(count<TabmodelFile1.getRowCount()){
+                                keytab1 = (String) TabmodelFile1.getValueAt(count, 1);
+                                valuetab1 = (String) TabmodelFile1.getValueAt(count, 2);
+                            }else{
+                                keytab1="";
+                                valuetab1="";
+                            }
+                        } else if (file1.ts) {
+                           if(count<TabmodelFile1.getRowCount()){
+                                keytab1 = (String) TabmodelFile1.getValueAt(count, 2);
+                                valuetab1 = (String) TabmodelFile1.getValueAt(count, 3);
+                            }else{
+                                keytab1="";
+                                valuetab1="";
+                            }
+                        }
+
+                        if (file2.po) {
+                            if(count<TabmodelFile2.getRowCount()){
+                                keytab2 = (String) TabmodelFile2.getValueAt(count, 1);
+                                valuetab2 = (String) TabmodelFile2.getValueAt(count, 2);
+                            }else{
+                                keytab2="";
+                                valuetab2="";
+                            }
+                        } else if (file2.ts) {
+                            if(count<TabmodelFile2.getRowCount()){
+                                keytab2 = (String) TabmodelFile2.getValueAt(count, 2);
+                                valuetab2 = (String) TabmodelFile2.getValueAt(count, 3);
+                            }else{
+                                keytab2="";
+                                valuetab2="";
+                            }
                         }
                         
-                        if(file2.po){
-                            keytab2=(String)TabmodelFile2.getValueAt(count, 1);
-                            valuetab2=(String)TabmodelFile2.getValueAt(count, 2);
-                        }else if(file2.ts){
-                            keytab2=(String)TabmodelFile2.getValueAt(count, 2);
-                            valuetab2=(String)TabmodelFile2.getValueAt(count, 3);
+                        if(!keytab1.equals(keytab2)){
+                            ((DefaultTableModel)jTable_vgl_translation.getModel()).addRow(new String[]{keytab1, keytab2, valuetab1, valuetab2});
                         }
-                        
-                        ((DefaultTableModel)jTable_vgl_translation.getModel()).addRow(new String[]{keytab1,valuetab1,keytab2,valuetab2});
-                    }else {
+                    } else {
                         break;
                     }
                     count++;
                 }
-           
-            break;
 
-            case "Fehlende Keys":
-
-            break;
+                break;
         }
     }//GEN-LAST:event_jButton_vergleiche_TabActionPerformed
 
@@ -848,7 +873,7 @@ public class MainFrame extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
