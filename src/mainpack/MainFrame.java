@@ -64,6 +64,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        jFrame_ST.setLocationRelativeTo(null);
+        fileChooser.setLocation(this.getX(), this.getY());
+        jFrame_autosuche.setLocationRelativeTo(null);
         //Der Tabelle jTable1 ein neues leeres Model zuweisen
         jTable_tab_start.setModel(new DefaultTableModel(new String[]{"Zeilenummer", "id", "Übersetzung"}, 0));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo-hd.png")));
@@ -779,7 +783,10 @@ public class MainFrame extends javax.swing.JFrame {
         tspoFile file2=new tspoFile();
         DefaultTableModel TabmodelFile2=new DefaultTableModel();
 
-        
+        String keytab1="";
+        String valuetab1="";
+        String keytab2="";
+        String valuetab2="";
         
         for(tspoFile file:tspofiles){
             if(file.getFile_name().equals((String)jComboBox_t1.getSelectedItem())){
@@ -802,7 +809,24 @@ public class MainFrame extends javax.swing.JFrame {
                 int count=0;
                 while(true){
                     if(count<TabmodelFile1.getRowCount()){
-                       jTable_vgl_translation.getCellRenderer(count, 0).getTableCellRendererComponent(jTable_tab_start,"hello", false, true,count, 0).setBackground(Color.GREEN);
+                        
+                        if(file1.po){
+                            keytab1=(String)TabmodelFile1.getValueAt(count, 1);
+                            valuetab1=(String)TabmodelFile1.getValueAt(count, 2);
+                        }else if(file1.ts){
+                            keytab1=(String)TabmodelFile1.getValueAt(count, 2);
+                            valuetab1=(String)TabmodelFile1.getValueAt(count, 3);
+                        }
+                        
+                        if(file2.po){
+                            keytab2=(String)TabmodelFile2.getValueAt(count, 1);
+                            valuetab2=(String)TabmodelFile2.getValueAt(count, 2);
+                        }else if(file2.ts){
+                            keytab2=(String)TabmodelFile2.getValueAt(count, 2);
+                            valuetab2=(String)TabmodelFile2.getValueAt(count, 3);
+                        }
+                        
+                        ((DefaultTableModel)jTable_vgl_translation.getModel()).addRow(new String[]{keytab1,valuetab1,keytab2,valuetab2});
                     }else {
                         break;
                     }
