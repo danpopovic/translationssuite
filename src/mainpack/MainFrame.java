@@ -132,6 +132,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton_vergleiche_Tab = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_vgl_translation = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
@@ -271,17 +272,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane.addTab("tab1", jScrollPane_TabellenTab1);
 
+        jDesktopPane1.setBackground(jPanel1.getBackground());
+        jDesktopPane1.setDesktopManager(null);
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(400, 400));
 
         jLabel1.setText("Verlgleichskriterium");
 
         jComboBox_Vergleichskriterien.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Änderungen herrvorheben", "Fehlende Keys"}));
 
-        jComboBox_t1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_t1.setModel(new javax.swing.DefaultComboBoxModel<>());
 
         jLabel4.setText("mit");
-
-        jComboBox_t2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton_vergleiche_Tab.setText("Vergleiche!");
         jButton_vergleiche_Tab.addActionListener(new java.awt.event.ActionListener() {
@@ -301,6 +302,7 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable_vgl_translation.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jTable_vgl_translation);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -324,6 +326,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton_vergleiche_Tab))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,8 +344,10 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_vergleiche_Tab)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -779,91 +787,11 @@ public class MainFrame extends javax.swing.JFrame {
         //Hier werden die Selektierten Tabellen vergliche nach den Selektierten Kriterien
         // tspofile: eine Klasse in den eine Tabelle und ein String name enthalten ist
         // tspofiles: eine LinkedList mit tspofiles
-
-        String sel_vgl_krit = (String) jComboBox_Vergleichskriterien.getSelectedItem();
-        tspoFile file1 = new tspoFile();
-        DefaultTableModel TabmodelFile1 = new DefaultTableModel();
-        tspoFile file2 = new tspoFile();
-        DefaultTableModel TabmodelFile2 = new DefaultTableModel();
-
-        String keytab1 = "";
-        String valuetab1 = "";
-        String keytab2 = "";
-        String valuetab2 = "";
-
-        for (tspoFile file : tspofiles) {
-            if (file.getFile_name().equals((String) jComboBox_t1.getSelectedItem())) {
-                file1 = file;
-                TabmodelFile1 = (DefaultTableModel) file1.getDaten().getModel();
-            } else if (file.getFile_name().equals((String) jComboBox_t2.getSelectedItem())) {
-                file2 = file;
-                TabmodelFile2 = (DefaultTableModel) file2.getDaten().getModel();
-            }
-        }
-
-        String[] vgl_tbl_col = new String[]{"keys von " + file1.getFile_name(),
-            "keys von " + file2.getFile_name(),
-            "values von " + file1.getFile_name(),
-            "values von " + file2.getFile_name()};
+        String[] sel_files=new String[2];
+        sel_files[0]=(String)jComboBox_t1.getSelectedItem();
+        sel_files[1]=(String)jComboBox_t2.getSelectedItem();
+        Methoden.vergleiche((String) jComboBox_Vergleichskriterien.getSelectedItem(),jTable_vgl_translation,tspofiles,jLabel5,sel_files);
         
-        switch (sel_vgl_krit) {
-            case "Änderungen herrvorheben":
-                
-                break;
-
-            case "Fehlende Keys":
-                    int count = 0;
-                jTable_vgl_translation.setModel(new DefaultTableModel(vgl_tbl_col, 0));
-                while (true) {
-                    if (count < TabmodelFile1.getRowCount() || count < TabmodelFile2.getRowCount()) {
-
-                        if (file1.po) {
-                            if(count<TabmodelFile1.getRowCount()){
-                                keytab1 = (String) TabmodelFile1.getValueAt(count, 1);
-                                valuetab1 = (String) TabmodelFile1.getValueAt(count, 2);
-                            }else{
-                                keytab1="";
-                                valuetab1="";
-                            }
-                        } else if (file1.ts) {
-                           if(count<TabmodelFile1.getRowCount()){
-                                keytab1 = (String) TabmodelFile1.getValueAt(count, 2);
-                                valuetab1 = (String) TabmodelFile1.getValueAt(count, 3);
-                            }else{
-                                keytab1="";
-                                valuetab1="";
-                            }
-                        }
-
-                        if (file2.po) {
-                            if(count<TabmodelFile2.getRowCount()){
-                                keytab2 = (String) TabmodelFile2.getValueAt(count, 1);
-                                valuetab2 = (String) TabmodelFile2.getValueAt(count, 2);
-                            }else{
-                                keytab2="";
-                                valuetab2="";
-                            }
-                        } else if (file2.ts) {
-                            if(count<TabmodelFile2.getRowCount()){
-                                keytab2 = (String) TabmodelFile2.getValueAt(count, 2);
-                                valuetab2 = (String) TabmodelFile2.getValueAt(count, 3);
-                            }else{
-                                keytab2="";
-                                valuetab2="";
-                            }
-                        }
-                        
-                        if(!keytab1.equals(keytab2)){
-                            ((DefaultTableModel)jTable_vgl_translation.getModel()).addRow(new String[]{keytab1, keytab2, valuetab1, valuetab2});
-                        }
-                    } else {
-                        break;
-                    }
-                    count++;
-                }
-
-                break;
-        }
     }//GEN-LAST:event_jButton_vergleiche_TabActionPerformed
 
     /**
@@ -928,6 +856,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem_autosuche;
@@ -943,7 +872,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane_TabellenTab1;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTable_tab_start;
-    private javax.swing.JTable jTable_vgl_translation;
+    public javax.swing.JTable jTable_vgl_translation;
     private javax.swing.JTextField jTextField_ST_pfad;
     // End of variables declaration//GEN-END:variables
 
