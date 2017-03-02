@@ -45,6 +45,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -133,6 +134,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_vgl_translation = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
@@ -284,7 +286,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel4.setText("mit");
 
-        jButton_vergleiche_Tab.setText("Vergleiche!");
+        jButton_vergleiche_Tab.setText("Vergleiche:");
         jButton_vergleiche_Tab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_vergleiche_TabActionPerformed(evt);
@@ -305,30 +307,40 @@ public class MainFrame extends javax.swing.JFrame {
         jTable_vgl_translation.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jTable_vgl_translation);
 
+        jButton1.setText("Ergegnisse speichern unter");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox_Vergleichskriterien, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox_Vergleichskriterien, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton_vergleiche_Tab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox_t2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 79, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton_vergleiche_Tab))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -340,11 +352,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox_t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox_t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton_vergleiche_Tab))
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_vergleiche_Tab)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -647,7 +661,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (((DefaultComboBoxModel) jComboBox_translations.getModel()).getSize() == 0) {
             jFrame_autosuche.setVisible(false);
-            JOptionPane.showMessageDialog(rootPane, "Es wurden im Source Tree keine Übersetzungen gefunden", "Warnung", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Es wurden im Source Tree keine Übersetzungen gefunden", "Warnung", JOptionPane.WARNING_MESSAGE);
 
         }
     }
@@ -683,20 +697,20 @@ public class MainFrame extends javax.swing.JFrame {
             jMenuItem_autosuche.setEnabled(true);
 
         } else if (!f.isDirectory()) {
-            JOptionPane.showMessageDialog(rootPane, "Source Tree ist keine Verzeichniss", "Eingabehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Source Tree ist keine Verzeichniss", "Eingabehler", JOptionPane.ERROR_MESSAGE);
             sourceTree = "";
             jTextField_ST_pfad.setText("");
         } else if (!f.exists()) {
-            JOptionPane.showMessageDialog(rootPane, "Source Tree existiert nicht", "Eingabehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Source Tree existiert nicht", "Eingabehler", JOptionPane.ERROR_MESSAGE);
             sourceTree = "";
             jTextField_ST_pfad.setText("");
         } else if (!f.canRead()) {
-            JOptionPane.showMessageDialog(rootPane, "Source Tree ist lesegeschützt", "Eingabehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Source Tree ist lesegeschützt", "Eingabehler", JOptionPane.ERROR_MESSAGE);
             sourceTree = "";
             jTextField_ST_pfad.setText("");
 
         } else if (!f.canWrite()) {
-            JOptionPane.showMessageDialog(rootPane, "Source Tree ist schreibgeschützt", "Eingabehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Source Tree ist schreibgeschützt", "Eingabehler", JOptionPane.ERROR_MESSAGE);
             sourceTree = "";
             jTextField_ST_pfad.setText("");
 
@@ -794,6 +808,15 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton_vergleiche_TabActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       JFileChooser chooser=new JFileChooser();
+       chooser.setAcceptAllFileFilterUsed(false);
+       chooser.addChoosableFileFilter(new FileNameExtensionFilter(".csv File",".csv"));
+       if(chooser.showSaveDialog(this)==JFileChooser.APPROVE_OPTION){
+            Methoden.exportiere_unterschiede(chooser.getSelectedFile().getPath(), jTable_vgl_translation);
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -840,6 +863,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_ST_abbr;
     private javax.swing.JButton jButton_ST_ok;
     private javax.swing.JButton jButton_autosuche_ok;
