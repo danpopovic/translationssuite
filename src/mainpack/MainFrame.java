@@ -25,6 +25,8 @@ package mainpack;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -43,7 +45,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -81,6 +86,21 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane.setTitleAt(1, "Vergleich");
         jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("Vergleich"), false);
 
+         
+
+             JPanel panel = new JPanel();
+               Container c = this.getContentPane();
+               panel.setSize(100,100);
+               panel.setLayout(new GridLayout(1000,1));
+               for(int i = 0; i<1000;i++)
+                panel.add(new JLabel("JLabel "+i));
+
+              JScrollPane jsp = new JScrollPane(panel);
+              c.add(jsp);
+               this.setSize(100,100);
+                this.setVisible(true);
+                
+                
         File st_new = new File("ST.txt");
 
         try {
@@ -521,6 +541,8 @@ public class MainFrame extends javax.swing.JFrame {
                             e.getChild("location").getAttributeValue("filename"),
                             e.getChildText("source"),
                             e.getChildText("translation")
+                                
+                               
 
                         });
                     }
