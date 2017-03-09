@@ -42,8 +42,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -63,7 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public String sourceTree;
+    public String sourceTree="";
     public LinkedList<tspoFile> tspofiles = new LinkedList<>();
 
     public MainFrame() {
@@ -119,6 +121,14 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField_ST_pfad = new javax.swing.JTextField();
         jCheckBox_STbeibehalten = new javax.swing.JCheckBox();
+        jFrame_Save_in_ST = new javax.swing.JFrame();
+        jButton_OK = new javax.swing.JButton();
+        jButton_Abbrechen = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextPane_Dateipfad = new javax.swing.JTextPane();
         jTabbedPane = new javax.swing.JTabbedPane();
         jScrollPane_TabellenTab1 = new javax.swing.JScrollPane();
         jTable_tab_start = new javax.swing.JTable();
@@ -139,6 +149,8 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu_datei = new javax.swing.JMenu();
         jMenuItem_oeffnen = new javax.swing.JMenuItem();
         jMenuItem_autosuche = new javax.swing.JMenuItem();
+        jMenuItem_speichern = new javax.swing.JMenuItem();
+        jMenuItem_speichernST = new javax.swing.JMenuItem();
         jMenu_menue = new javax.swing.JMenu();
         jMenuItem_vgD = new javax.swing.JMenuItem();
         jMenuItem_vgDST = new javax.swing.JMenuItem();
@@ -247,6 +259,75 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jCheckBox_STbeibehalten)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jButton_ST_ok))
+        );
+
+        jFrame_Save_in_ST.setResizable(false);
+        jFrame_Save_in_ST.setSize(new java.awt.Dimension(300, 125));
+
+        jButton_OK.setText("OK");
+        jButton_OK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_OKActionPerformed(evt);
+            }
+        });
+
+        jButton_Abbrechen.setText("Abbrechen");
+        jButton_Abbrechen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_AbbrechenActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Dateiname");
+
+        jLabel7.setText("Dateiendung");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".csv", ".po" }));
+
+        jScrollPane3.setViewportView(jTextPane_Dateipfad);
+
+        javax.swing.GroupLayout jFrame_Save_in_STLayout = new javax.swing.GroupLayout(jFrame_Save_in_ST.getContentPane());
+        jFrame_Save_in_ST.getContentPane().setLayout(jFrame_Save_in_STLayout);
+        jFrame_Save_in_STLayout.setHorizontalGroup(
+            jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_Save_in_STLayout.createSequentialGroup()
+                .addGroup(jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jFrame_Save_in_STLayout.createSequentialGroup()
+                        .addGroup(jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jFrame_Save_in_STLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel6)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_Save_in_STLayout.createSequentialGroup()
+                                .addGap(0, 14, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(jFrame_Save_in_STLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton_OK)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton_Abbrechen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jFrame_Save_in_STLayout.setVerticalGroup(
+            jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_Save_in_STLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(jFrame_Save_in_STLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Abbrechen)
+                    .addComponent(jButton_OK))
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -401,6 +482,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu_datei.add(jMenuItem_autosuche);
+
+        jMenuItem_speichern.setText("Speichern unter");
+        jMenuItem_speichern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_speichernActionPerformed(evt);
+            }
+        });
+        jMenu_datei.add(jMenuItem_speichern);
+
+        jMenuItem_speichernST.setText("Speichern in Source Tree");
+        jMenuItem_speichernST.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_speichernSTActionPerformed(evt);
+            }
+        });
+        jMenu_datei.add(jMenuItem_speichernST);
 
         jMenuBar1.add(jMenu_datei);
 
@@ -801,21 +898,68 @@ public class MainFrame extends javax.swing.JFrame {
         //Hier werden die Selektierten Tabellen vergliche nach den Selektierten Kriterien
         // tspofile: eine Klasse in den eine Tabelle und ein String name enthalten ist
         // tspofiles: eine LinkedList mit tspofiles
-        String[] sel_files=new String[2];
-        sel_files[0]=(String)jComboBox_t1.getSelectedItem();
-        sel_files[1]=(String)jComboBox_t2.getSelectedItem();
-        Methoden.vergleiche((String) jComboBox_Vergleichskriterien.getSelectedItem(),jTable_vgl_translation,tspofiles,jLabel5,sel_files);
-        
+        String[] sel_files = new String[2];
+        sel_files[0] = (String) jComboBox_t1.getSelectedItem();
+        sel_files[1] = (String) jComboBox_t2.getSelectedItem();
+        Methoden.vergleiche((String) jComboBox_Vergleichskriterien.getSelectedItem(), jTable_vgl_translation, tspofiles, jLabel5, sel_files);
+
     }//GEN-LAST:event_jButton_vergleiche_TabActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       JFileChooser chooser=new JFileChooser();
-       chooser.setAcceptAllFileFilterUsed(false);
-       chooser.addChoosableFileFilter(new FileNameExtensionFilter(".csv File",".csv"));
-       if(chooser.showSaveDialog(this)==JFileChooser.APPROVE_OPTION){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter(".csv File", ".csv"));
+        if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             Methoden.exportiere_unterschiede(chooser.getSelectedFile().getPath(), jTable_vgl_translation);
-       }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem_speichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_speichernActionPerformed
+
+        JFileChooser exportFileChooser=new JFileChooser(sourceTree);
+        exportFileChooser.setAcceptAllFileFilterUsed(false);
+        exportFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        exportFileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".ts Übersetzungen (.ts)","ts"));
+        exportFileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".po Übersetzungen (.po)","po"));
+        if (exportFileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+            File exportFile;
+            try {
+                exportFile = new File(fileChooser.getSelectedFile().getCanonicalFile() + ".txt");
+
+                
+                if(!tspofiles.isEmpty()){
+                for (tspoFile tspofile : tspofiles) {
+                    if (tspofile.getFile_name().equals(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex()))) {
+                        Methoden.exportPOfile(tspofile.getDaten(), exportFile);
+                        break;
+
+                    }
+                }
+                }else{
+                    JDialog jd=new JDialog();
+                    
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }//GEN-LAST:event_jMenuItem_speichernActionPerformed
+
+    private void jMenuItem_speichernSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_speichernSTActionPerformed
+        jFrame_Save_in_ST.setVisible(true);
+    }//GEN-LAST:event_jMenuItem_speichernSTActionPerformed
+
+    private void jButton_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_OKActionPerformed
+        jFrame_Save_in_ST.setVisible(false);
+
+    }//GEN-LAST:event_jButton_OKActionPerformed
+
+    private void jButton_AbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AbbrechenActionPerformed
+        jFrame_Save_in_ST.setVisible(false);
+    }//GEN-LAST:event_jButton_AbbrechenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -864,27 +1008,35 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton_Abbrechen;
+    private javax.swing.JButton jButton_OK;
     private javax.swing.JButton jButton_ST_abbr;
     private javax.swing.JButton jButton_ST_ok;
     private javax.swing.JButton jButton_autosuche_ok;
     private javax.swing.JButton jButton_vergleiche_Tab;
     private javax.swing.JCheckBox jCheckBox_STbeibehalten;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox_Vergleichskriterien;
     private javax.swing.JComboBox<String> jComboBox_t1;
     private javax.swing.JComboBox<String> jComboBox_t2;
     private javax.swing.JComboBox<String> jComboBox_translations;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame_ST;
+    private javax.swing.JFrame jFrame_Save_in_ST;
     private javax.swing.JFrame jFrame_autosuche;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem_autosuche;
     private javax.swing.JMenuItem jMenuItem_oeffnen;
+    private javax.swing.JMenuItem jMenuItem_speichern;
+    private javax.swing.JMenuItem jMenuItem_speichernST;
     private javax.swing.JMenuItem jMenuItem_vgD;
     private javax.swing.JMenuItem jMenuItem_vgDST;
     private javax.swing.JMenu jMenu_datei;
@@ -893,11 +1045,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane_TabellenTab1;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTable jTable_tab_start;
     public javax.swing.JTable jTable_vgl_translation;
     private javax.swing.JTextField jTextField_ST_pfad;
+    private javax.swing.JTextPane jTextPane_Dateipfad;
     // End of variables declaration//GEN-END:variables
 
 }
