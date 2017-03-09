@@ -5,8 +5,10 @@
  */
 package mainpack;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -270,39 +272,70 @@ public class Methoden {
                 break;
         }
     }
-    
-    public static void exportiere_unterschiede(String filename,JTable data) {
-        DefaultTableModel dataTabelModel=(DefaultTableModel)data.getModel();
-        String ausgString="";
-        if(!filename.endsWith(".csv")){
-            filename=filename+".csv";
+
+    public static void exportiere_unterschiede(String filename, JTable data) {
+        DefaultTableModel dataTabelModel = (DefaultTableModel) data.getModel();
+        String ausgString = "";
+        if (!filename.endsWith(".csv")) {
+            filename = filename + ".csv";
         }
         try {
-            BufferedWriter bw=new BufferedWriter(new FileWriter(new File(filename)));
-            for(int ic=0;ic<dataTabelModel.getColumnCount();ic++){
-                    bw.write(dataTabelModel.getColumnName(ic)+";");
-                  
-            }   
-            
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+            for (int ic = 0; ic < dataTabelModel.getColumnCount(); ic++) {
+                bw.write(dataTabelModel.getColumnName(ic) + ";");
+
+            }
+
             bw.newLine();
-              
-            for(int ir=0;ir<dataTabelModel.getRowCount();ir++){
-                ausgString="";
-                for(int ic=0;ic<dataTabelModel.getColumnCount();ic++){
-                    if(ausgString.isEmpty()){
-                        ausgString=(String) dataTabelModel.getValueAt(ir,ic);
-                    }else{
-                         ausgString=ausgString+";"+(String) dataTabelModel.getValueAt(ir,ic);
+
+            for (int ir = 0; ir < dataTabelModel.getRowCount(); ir++) {
+                ausgString = "";
+                for (int ic = 0; ic < dataTabelModel.getColumnCount(); ic++) {
+                    if (ausgString.isEmpty()) {
+                        ausgString = (String) dataTabelModel.getValueAt(ir, ic);
+                    } else {
+                        ausgString = ausgString + ";" + (String) dataTabelModel.getValueAt(ir, ic);
                     }
-                }   
-                 bw.flush();
-                 bw.write(ausgString);
-                 bw.newLine();
+                }
+                bw.flush();
+                bw.write(ausgString);
+                bw.newLine();
             }
             bw.close();
         } catch (IOException ex) {
             Logger.getLogger(Methoden.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+
+    public static void exportTSfile(JTable data, String filename) {
+
+    }
+
+    public static void exportPOfile(JTable data, File file) {
+
+        DefaultTableModel dtm = (DefaultTableModel) data.getModel();
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+            int rowcount = 1;
+
+            bw.flush();
+            bw.write("#");
+            
+
+            while (rowcount < data.getRowCount()) {
+                bw.flush();
+                bw.write("#");
+                bw.write("msid:\u0034\u0034");
+                
+                rowcount++;
+            }
+            
+            bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Methoden.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
