@@ -322,16 +322,20 @@ public class Methoden {
 
             bw.flush();
             bw.write("#");
-            
+            bw.newLine();
 
             while (rowcount < data.getRowCount()) {
                 bw.flush();
                 bw.write("#");
-                bw.write("msid:\u0034\u0034");
-                
+                bw.newLine();
+                bw.write("msid \""+dtm.getValueAt(rowcount,1)+"\"");
+                bw.newLine();
+                bw.write("msgstr \""+dtm.getValueAt(rowcount,2)+"\"");
+                bw.newLine();
+                bw.newLine();
                 rowcount++;
             }
-            
+
             bw.close();
         } catch (IOException ex) {
             Logger.getLogger(Methoden.class.getName()).log(Level.SEVERE, null, ex);
