@@ -5,13 +5,10 @@
  */
 package mainpack;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -318,19 +315,52 @@ public class Methoden {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
-            int rowcount = 1;
-
-            bw.flush();
-            bw.write("#");
-            bw.newLine();
+            int rowcount = 0;
 
             while (rowcount < data.getRowCount()) {
-                bw.flush();
-                bw.write("#");
-                bw.newLine();
-                bw.write("msid \""+dtm.getValueAt(rowcount,1)+"\"");
-                bw.newLine();
-                bw.write("msgstr \""+dtm.getValueAt(rowcount,2)+"\"");
+
+                //Wenn man ein neues File abspeichert, fehlt die Spalte Zeilenummer
+                //da man noch nicht weiss in welcher Zeile die Daten abgespeichert werden
+                if (data.getColumnCount() == 2) {
+                    if (dtm.getValueAt(rowcount, 0) != null || dtm.getValueAt(rowcount, 1) != null) {
+                        bw.flush();
+                        bw.write("#");
+                        bw.newLine();
+                        if (dtm.getValueAt(rowcount, 0) != null) {
+                            bw.write("msid \"" + dtm.getValueAt(rowcount, 0) + "\"");
+                        } else {
+                            bw.write("msid \" \"");
+                        }
+                        bw.newLine();
+                          
+                        if (dtm.getValueAt(rowcount, 1) != null) {
+                            bw.write("msgstr \"" + dtm.getValueAt(rowcount, 1) + "\"");
+                        } else {
+                            bw.write("msgstr \" \"");
+                        }
+                    }
+                } else if (data.getColumnCount() == 3) {
+                    if (dtm.getValueAt(rowcount, 1) != null|| dtm.getValueAt(rowcount, 2) != null) {
+                        
+                        bw.flush();
+                        bw.write("#");
+                        bw.newLine();
+                        
+                        if (dtm.getValueAt(rowcount, 1) != null) {
+                            bw.write("msid \"" + dtm.getValueAt(rowcount, 1) + "\"");
+                        } else {
+                            bw.write("msid \" \"");
+                        }
+                        
+                        bw.newLine();
+                        
+                        if (dtm.getValueAt(rowcount, 2) != null) {
+                            bw.write("msgstr \"" + dtm.getValueAt(rowcount, 2) + "\"");
+                        } else {
+                            bw.write("msgstr \" \"");
+                        };
+                    }
+                }
                 bw.newLine();
                 bw.newLine();
                 rowcount++;
@@ -341,5 +371,4 @@ public class Methoden {
             Logger.getLogger(Methoden.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }
