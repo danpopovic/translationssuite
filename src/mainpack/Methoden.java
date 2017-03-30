@@ -7,14 +7,23 @@ package mainpack;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 /**
  *
@@ -305,7 +314,35 @@ public class Methoden {
 
     }
 
-    public static void exportTSfile(JTable data, String filename) {
+    public static void exportTSfile(JTable data, File file) {
+        try {
+            Document tsfile;
+            Element root;
+            Element con;
+
+            root = new Element("TS");
+            tsfile = new Document(root);
+            root.setAttribute("version", "2.0");
+            con = new Element("context");
+
+            for (int i = 0; i < data.getRowCount(); i++) {
+                if (data.getValueAt(i, 0) != null && data.getValueAt(i, 1) != null) {
+                    Element message = new Element("message");
+                    message.addContent(
+                            new Element("source").addContent((String) data.getValueAt(i, 0)));
+                    message.addContent(
+                            new Element("translation").addContent((String) data.getValueAt(i, 1)));
+
+                    con.addContent(message);
+                }
+            }
+
+            root.addContent(con);
+            XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+            xout.output(tsfile, new FileOutputStream(file));
+        } catch (IOException ex) {
+            Logger.getLogger(Methoden.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -332,7 +369,7 @@ public class Methoden {
                             bw.write("msid \" \"");
                         }
                         bw.newLine();
-                          
+
                         if (dtm.getValueAt(rowcount, 1) != null) {
                             bw.write("msgstr \"" + dtm.getValueAt(rowcount, 1) + "\"");
                         } else {
@@ -340,20 +377,20 @@ public class Methoden {
                         }
                     }
                 } else if (data.getColumnCount() == 3) {
-                    if (dtm.getValueAt(rowcount, 1) != null|| dtm.getValueAt(rowcount, 2) != null) {
-                        
+                    if (dtm.getValueAt(rowcount, 1) != null || dtm.getValueAt(rowcount, 2) != null) {
+
                         bw.flush();
                         bw.write("#");
                         bw.newLine();
-                        
+
                         if (dtm.getValueAt(rowcount, 1) != null) {
                             bw.write("msid \"" + dtm.getValueAt(rowcount, 1) + "\"");
                         } else {
                             bw.write("msid \" \"");
                         }
-                        
+
                         bw.newLine();
-                        
+
                         if (dtm.getValueAt(rowcount, 2) != null) {
                             bw.write("msgstr \"" + dtm.getValueAt(rowcount, 2) + "\"");
                         } else {
