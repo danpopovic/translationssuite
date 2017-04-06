@@ -314,8 +314,10 @@ public class Methoden {
 
     }
 
-    public static void exportTSfile(JTable data, File file) {
+    public static void exportTSfile(tspoFile out) {
         try {
+            JTable data=out.getDaten();
+            File file=new File(out.getFile_name());
             Document tsfile;
             Element root;
             Element con;
@@ -346,10 +348,13 @@ public class Methoden {
 
     }
 
-    public static void exportPOfile(JTable data, File file) {
-
-        DefaultTableModel dtm = (DefaultTableModel) data.getModel();
+    public static void exportPOfile(tspoFile out) {
+   
+            
         try {
+            JTable data=out.getDaten();
+            File file=new File(out.getFile_name());DefaultTableModel dtm = (DefaultTableModel) data.getModel();
+            
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
             int rowcount = 0;
