@@ -369,9 +369,9 @@ public class Methoden {
                         bw.write("#");
                         bw.newLine();
                         if (dtm.getValueAt(rowcount, 0) != null) {
-                            bw.write("msid \"" + dtm.getValueAt(rowcount, 0) + "\"");
+                            bw.write("msgid \"" + dtm.getValueAt(rowcount, 0) + "\"");
                         } else {
-                            bw.write("msid \" \"");
+                            bw.write("msgid \" \"");
                         }
                         bw.newLine();
 
@@ -389,9 +389,9 @@ public class Methoden {
                         bw.newLine();
 
                         if (dtm.getValueAt(rowcount, 1) != null) {
-                            bw.write("msid \"" + dtm.getValueAt(rowcount, 1) + "\"");
+                            bw.write("msgid \"" + dtm.getValueAt(rowcount, 1) + "\"");
                         } else {
-                            bw.write("msid \" \"");
+                            bw.write("msgid \" \"");
                         }
 
                         bw.newLine();
