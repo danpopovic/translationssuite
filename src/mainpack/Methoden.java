@@ -5,23 +5,26 @@
  */
 package mainpack;
 
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -316,8 +319,8 @@ public class Methoden {
 
     public static void exportTSfile(tspoFile out) {
         try {
-            JTable data=out.getDaten();
-            File file=new File(out.getFile_name());
+            JTable data = out.getDaten();
+            File file = new File(out.getFile_name());
             Document tsfile;
             Element root;
             Element con;
@@ -349,12 +352,12 @@ public class Methoden {
     }
 
     public static void exportPOfile(tspoFile out) {
-   
-            
+
         try {
-            JTable data=out.getDaten();
-            File file=new File(out.getFile_name());DefaultTableModel dtm = (DefaultTableModel) data.getModel();
-            
+            JTable data = out.getDaten();
+            File file = new File(out.getFile_name());
+            DefaultTableModel dtm = (DefaultTableModel) data.getModel();
+
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
             int rowcount = 0;
@@ -412,5 +415,37 @@ public class Methoden {
         } catch (IOException ex) {
             Logger.getLogger(Methoden.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void addTab(JTabbedPane tp, JScrollPane sp, String title) {
+        tp.addTab(title, sp);
+        int index;
+        index = tp.indexOfTab(title);
+        JPanel pnlTab = new JPanel(new GridBagLayout());
+        pnlTab.setOpaque(false);
+        JLabel lblTitle = new JLabel(title);
+        JButton btnClose = new JButton("X");
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+
+        pnlTab.add(lblTitle, gbc);
+
+        gbc.gridx++;
+        gbc.weightx = 0;
+        pnlTab.add(btnClose, gbc);
+
+        tp.setTabComponentAt(index, pnlTab);
+
+        btnClose.addActionListener((CloseActionHandler) -> {
+            String tabname;
+            Component selected = tp.getSelectedComponent();
+            if (selected != null) {
+
+                tp.remove(selected);
+            }
+        });
     }
 }

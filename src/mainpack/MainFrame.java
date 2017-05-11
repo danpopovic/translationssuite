@@ -602,9 +602,9 @@ public class MainFrame extends javax.swing.JFrame {
                             } else {
                                 fl = e.getChild("location").getAttributeValue("filename");
                             }
-                        }else{
-                            l="";
-                            fl="";
+                        } else {
+                            l = "";
+                            fl = "";
                         }
 
                         if (e.getChildText("source") == null) {
@@ -699,7 +699,7 @@ public class MainFrame extends javax.swing.JFrame {
                         String s;
                         String t;
 
-                      if (e.getChild("location") != null) {
+                        if (e.getChild("location") != null) {
                             if (e.getChild("location").getAttributeValue("line") == null) {
                                 l = "";
                             } else {
@@ -710,9 +710,9 @@ public class MainFrame extends javax.swing.JFrame {
                             } else {
                                 fl = e.getChild("location").getAttributeValue("filename");
                             }
-                        }else{
-                            l="";
-                            fl="";
+                        } else {
+                            l = "";
+                            fl = "";
                         }
 
                         if (e.getChildText("source") == null) {
@@ -756,10 +756,10 @@ public class MainFrame extends javax.swing.JFrame {
         temp.getDaten().setEditingColumn(0);
         temp.getDaten().setEditingColumn(1);
         if (!temp.getFile_name().isEmpty()) {
-            jTabbedPane.addTab(temp.getFile_name(), sp);
+            Methoden.addTab(jTabbedPane, sp, temp.getFile_name());
             tspofiles.add(temp);
         }
-        
+
         jTabbedPane.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem_oeffnenActionPerformed
@@ -816,7 +816,7 @@ public class MainFrame extends javax.swing.JFrame {
         temp.getDaten().setEditingColumn(0);
         temp.getDaten().setEditingColumn(1);
         if (!temp.getFile_name().isEmpty()) {
-            jTabbedPane.addTab(temp.getFile_name(), sp);
+            Methoden.addTab(jTabbedPane, sp, temp.getFile_name());
             tspofiles.add(temp);
         }
 
@@ -1001,7 +1001,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane.setVisible(true);
         JScrollPane jScrollPane_TabellenTab1 = new javax.swing.JScrollPane();
         jScrollPane_TabellenTab1.setViewportView(jTable_tab_start);
-        jTabbedPane.addTab("*neu", jScrollPane_TabellenTab1);
+        Methoden.addTab(jTabbedPane, jScrollPane_TabellenTab1, "*neu");
         jTabbedPane.setSelectedIndex(tc);
 
     }//GEN-LAST:event_jMenuItem_neuesfileActionPerformed
@@ -1095,7 +1095,7 @@ public class MainFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
